@@ -1,29 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <script defer src="face-api.min.js"></script>
-  <script defer src="script.js"></script>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
 
-    canvas {
-      position: absolute;
-    }
-  </style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Face recognize</title>
+    <script defer src="face-api.min.js"></script>
+    <script defer src="script.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        canvas {
+            position: absolute;
+        }
+    </style>
 </head>
+
 <body>
-  <video id="video" width="720" height="560" autoplay muted></video>
+    <div class="content">
+        <h1> Face Recognize Demo</h1>
+        <div class="my-3">
+            <p> Hãy click vào nút [<b>Start</b>] để bắt đầu check in</p>
+            <video id="video" class="border border-primary" width="720" height="560" autoplay muted></video>
+        </div>
+        <div class="d-flex justify-content-center">
+            <button id="btnStart" type="button" class="btn btn-outline-primary">Start</button>
+        </div>
+        <br>
+        <br>
+        <h3>Note</h3>
+        <p>1.Trong thời gian 30 s, nếu không nhận diện được khuôn mặt thì sẽ show popup</p>
+        <p>2.Dữ liệu text gồm có tổng thống Trump(000000000001) và Biden(000000000002)</p>
+        <p>3.Hãy dùng ipad hoặc điện thoại màn hình lớn đưa ảnh hai vị này vào trước camera</p>
+    </div>
+    <div id="modalResult" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Checkin Result</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="closeModal()">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p id="modalResultBody"></p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="closeModal()">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
 </body>
+
 </html>
