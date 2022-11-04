@@ -68,7 +68,7 @@ btnStart.addEventListener('click', () => {
 })
 
 function loadLabeledImages() {
-  const labels = ['0338011257', '0905810289', '0905505296']
+  const labels = ['0338011257','0905810289','000000000001','000000000002']
   return Promise.all(
     labels.map(async label => {
       const descriptions = []
