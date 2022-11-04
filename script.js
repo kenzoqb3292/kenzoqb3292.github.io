@@ -21,7 +21,6 @@ function startVideo() {
 }
 
 btnStart.addEventListener('click', () => {
-  video.play()
   const canvas = faceapi.createCanvasFromMedia(video)
   document.body.append(canvas)
   const displaySize = { width: video.width, height: video.height }
@@ -56,7 +55,6 @@ btnStart.addEventListener('click', () => {
         if(result.label.toString() != 'unknown'){
           modalResultBody.innerText = result.label.toString() + ' đã check in vào lúc ' + new Date().toLocaleString()
           modal.style.display = 'block'
-          video.pause()
           clearInterval(handle)
           handle = 0
         }
