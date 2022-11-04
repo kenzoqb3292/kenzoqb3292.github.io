@@ -2,7 +2,7 @@ const video = document.getElementById('video')
 const btnStart = document.getElementById('btnStart')
 const modal = document.getElementById("modalResult")
 const modalResultBody = document.getElementById("modalResultBody")
-var labeledFaceDescriptors
+//var labeledFaceDescriptors = new faceapi.LabeledFaceDescriptors()
 
 
 Promise.all([
@@ -12,6 +12,10 @@ Promise.all([
   faceapi.nets.ssdMobilenetv1.loadFromUri('/models'),
 ]).then(startVideo)
 
+window.onload = function() {
+  btnStart.addEventListener('click', startRecognize);
+}
+
 function startVideo() {
   navigator.getUserMedia(
     { video: {} },
@@ -20,17 +24,23 @@ function startVideo() {
   )
 }
 
-btnStart.addEventListener('click', () => {
+function startRecognize() {
+  btnStart.disabled = true
   const canvas = faceapi.createCanvasFromMedia(video)
-  document.body.append(canvas)
+  document.getElementById('frame').append(canvas)
   const displaySize = { width: video.width, height: video.height }
   faceapi.matchDimensions(canvas, displaySize)
 
-  if(!labeledFaceDescriptors){
-    labeledFaceDescriptors = (async () => {
-      labeledFaceDescriptors = await loadLabeledImages()
-    })()
-  }
+  // if(!labeledFaceDescriptors){
+  //   labeledFaceDescriptors = (async () => {
+  //     labeledFaceDescriptors = await loadLabeledImages()
+  //   })()
+  // }
+  let labeledFaceDescriptors
+  (async () => {
+    labeledFaceDescriptors = await loadLabeledImages()
+  })()
+
   let i = 0
   let handle = setInterval(async () => {
     i++
@@ -57,12 +67,13 @@ btnStart.addEventListener('click', () => {
           modal.style.display = 'block'
           clearInterval(handle)
           handle = 0
+          btnStart.disabled = false
         }
       })
     }
   }, 1000)
 
-})
+}
 
 function loadLabeledImages() {
   const labels = ['0338011257','0905505296','000000000001','000000000002']
@@ -82,4 +93,5 @@ function loadLabeledImages() {
 
 function closeModal() {
   modal.style.display = 'none'
+  btnStart.disabled = false
 }
