@@ -38,7 +38,7 @@ btnStart.addEventListener('click', () => {
     i++
     // set timeout 30s
     if(i>30){
-      modalResultBody.innerText = ' Không thể xác định được khuôn mặt, vui lòng nhìn thẳng vào camera, và thử thay đổi khoảng cách đến camera rồi nhấn nút Start để thử lại . '
+      modalResultBody.innerText = ' Không thể xác định được khuôn mặt, vui lòng nhìn thẳng vào camera, và thử thay đổi khoảng cách đến camera rồi nhấn nút Recognize để thử lại . '
       modal.style.display = 'block'
       clearInterval(handle)
       handle = 0
@@ -68,7 +68,7 @@ btnStart.addEventListener('click', () => {
 })
 
 function loadLabeledImages() {
-  const labels = ['0338011257','0905810289','000000000001','000000000002']
+  const labels = ['0338011257','0905505296','000000000001','000000000002']
   return Promise.all(
     labels.map(async label => {
       const descriptions = []
