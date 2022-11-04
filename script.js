@@ -2,7 +2,6 @@ const video = document.getElementById('video')
 const btnStart = document.getElementById('btnStart')
 const modal = document.getElementById("modalResult")
 const modalResultBody = document.getElementById("modalResultBody")
-var isRecognize = false
 var labeledFaceDescriptors
 
 
