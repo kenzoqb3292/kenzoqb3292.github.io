@@ -76,7 +76,7 @@ function startRecognize() {
 }
 
 function loadLabeledImages() {
-  const labels = ['0338011257','0905505296','000000000001','000000000002']
+  const labels = ['0338011257','0905505296','000000000001','000000000002','7209370845']
   return Promise.all(
     labels.map(async label => {
       const descriptions = []
