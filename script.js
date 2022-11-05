@@ -12,7 +12,7 @@ Promise.all([
   faceapi.nets.ssdMobilenetv1.loadFromUri('/models'),
 ]).then(startVideo)
 
-window.onload = function() {
+window.onload = function () {
   btnStart.addEventListener('click', startRecognize);
 }
 
@@ -22,14 +22,37 @@ function startVideo() {
   //   stream => video.srcObject = stream,
   //   err => console.error(err)
   // )
-  if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    // Not adding `{ audio: true }` since we only want video now
-    navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-        //video.src = window.URL.createObjectURL(stream);
-        video.srcObject = stream;
-        video.play();
+  var mediaConfig = { video: true };
+  var errBack = function (e) {
+    console.log('An error has occurred!', e)
+  };
+
+  // Put video listeners into place
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia(mediaConfig).then(function (stream) {
+      //video.src = window.URL.createObjectURL(stream);
+      video.srcObject = stream;
+      video.play();
     });
-}
+  }
+
+  /* Legacy code below! */
+  else if (navigator.getUserMedia) { // Standard
+    navigator.getUserMedia(mediaConfig, function (stream) {
+      video.src = stream;
+      video.play();
+    }, errBack);
+  } else if (navigator.webkitGetUserMedia) { // WebKit-prefixed
+    navigator.webkitGetUserMedia(mediaConfig, function (stream) {
+      video.src = window.webkitURL.createObjectURL(stream);
+      video.play();
+    }, errBack);
+  } else if (navigator.mozGetUserMedia) { // Mozilla-prefixed
+    navigator.mozGetUserMedia(mediaConfig, function (stream) {
+      video.src = window.URL.createObjectURL(stream);
+      video.play();
+    }, errBack);
+  }
 }
 
 function startRecognize() {
@@ -53,7 +76,7 @@ function startRecognize() {
   let handle = setInterval(async () => {
     i++
     // set timeout 30s
-    if(i>30){
+    if (i > 30) {
       modalResultBody.innerText = ' Không thể xác định được khuôn mặt, vui lòng nhìn thẳng vào camera, và thử thay đổi khoảng cách đến camera rồi nhấn nút Recognize để thử lại . '
       modal.style.display = 'block'
       clearInterval(handle)
@@ -70,7 +93,7 @@ function startRecognize() {
         // const box = resizedDetections[i].detection.box
         // const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
         // drawBox.draw(canvas)
-        if(result.label.toString() != 'unknown'){
+        if (result.label.toString() != 'unknown') {
           modalResultBody.innerText = result.label.toString() + ' đã check in vào lúc ' + new Date().toLocaleString()
           modal.style.display = 'block'
           clearInterval(handle)
@@ -84,7 +107,7 @@ function startRecognize() {
 }
 
 function loadLabeledImages() {
-  const labels = ['0338011257','0905505296','000000000001','000000000002','7209370845']
+  const labels = ['0338011257', '0905505296', '000000000001', '000000000002', '7209370845']
   return Promise.all(
     labels.map(async label => {
       const descriptions = []
