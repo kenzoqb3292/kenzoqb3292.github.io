@@ -36,6 +36,7 @@ function startVideo() {
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
       //video.src = window.URL.createObjectURL(stream);
+      window.stream = stream; // make variable available to browser console
       video.srcObject = stream;
       video.play();
     });
