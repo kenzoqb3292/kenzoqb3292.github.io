@@ -16,20 +16,25 @@ window.onload = function () {
   btnStart.addEventListener('click', startRecognize);
 }
 
+
+const constraints = window.constraints = {
+  audio: false,
+  video: true
+};
 function startVideo() {
   // navigator.getUserMedia(
   //   { video: {} },
   //   stream => video.srcObject = stream,
   //   err => console.error(err)
   // )
-  var mediaConfig = { video: true };
+
   var errBack = function (e) {
     console.log('An error has occurred!', e)
   };
 
   // Put video listeners into place
   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia(mediaConfig).then(function (stream) {
+    navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
       //video.src = window.URL.createObjectURL(stream);
       video.srcObject = stream;
       video.play();
@@ -38,17 +43,17 @@ function startVideo() {
 
   /* Legacy code below! */
   else if (navigator.getUserMedia) { // Standard
-    navigator.getUserMedia(mediaConfig, function (stream) {
+    navigator.getUserMedia(constraints, function (stream) {
       video.src = stream;
       video.play();
     }, errBack);
   } else if (navigator.webkitGetUserMedia) { // WebKit-prefixed
-    navigator.webkitGetUserMedia(mediaConfig, function (stream) {
+    navigator.webkitGetUserMedia(constraints, function (stream) {
       video.src = window.webkitURL.createObjectURL(stream);
       video.play();
     }, errBack);
   } else if (navigator.mozGetUserMedia) { // Mozilla-prefixed
-    navigator.mozGetUserMedia(mediaConfig, function (stream) {
+    navigator.mozGetUserMedia(constraints, function (stream) {
       video.src = window.URL.createObjectURL(stream);
       video.play();
     }, errBack);
